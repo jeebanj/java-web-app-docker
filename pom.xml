@@ -99,18 +99,18 @@
 
 	</dependencies>
 	
-	<!-- <distributionManagement>
+	<distributionManagement>
 	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://13.235.8.113:8081/repository/flipkart-release/</url>
+	      <url>http://ec2-15-206-173-1.ap-south-1.compute.amazonaws.com:8081/repository/paytm-release/</url>
 	    </repository>
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository </name>
-	      <url>http://13.235.8.113:8081/repository/flipkart-snapshot/</url>
+	      <url>http://ec2-15-206-173-1.ap-south-1.compute.amazonaws.com:8081/repository/paytm-snapshot/</url>
 	    </snapshotRepository>
-	</distributionManagement> -->
+	</distributionManagement> 
 	
 	<build>
 		<plugins>
