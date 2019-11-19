@@ -1,0 +1,31 @@
+node{
+    def mavenHome = tool name: 'maven-3.6.2', type: 'maven'
+    stage('git clone'){
+        git credentialsId: 'github-credential', url: 'https://github.com/jeebanj/java-web-app-docker.git'
+    }
+    stage('validate code'){
+    sh "${mavenHome}/bin/mvn clean validate"
+    }
+    stage('compile the code'){
+        sh "${mavenHome}/bin/mvn clean compile"
+    }
+    stage('sonarqube report'){
+        sh "${mavenHome}/bin/mvn sonar:sonar"
+    }
+    stage('build package'){
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    stage('deploy artifact in to artifact repository'){
+        sh "${mavenHome}/bin/mvn clean deploy"
+    }
+    stage('deploy application in to application server'){
+      sshagent(['ec2_user_credential']) {
+    sh 'ssh -o StrictHostKeyChecking=no ec2-user@ec2-13-232-233-198.ap-south-1.compute.amazonaws.com'
+    sh "scp $WORKSPACE/target/*.war ec2-user@ec2-13-232-233-198.ap-south-1.compute.amazonaws.com:/opt/Tomcat/apache-tomcat-9.0.27/webapps/"
+}  
+    }
+    stage('email notification'){
+        emailext body: '''Regard
+jeeban''', subject: 'build success', to: 'j.satapathy28@gmail.com'
+    }
+}
